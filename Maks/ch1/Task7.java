@@ -4,11 +4,12 @@ import java.util.Scanner;
 public class Task7 {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        short a = (short) (scanner.nextInt() - Short.MAX_VALUE), b = (short) (scanner.nextInt() - Short.MAX_VALUE);
-        System.out.println(a + Short.MAX_VALUE + b + Short.MAX_VALUE);
-        System.out.println(a - b);
-        System.out.println((a + Short.MAX_VALUE) * (b + Short.MAX_VALUE));
-        System.out.println((a + Short.MAX_VALUE) / (b + Short.MAX_VALUE));
-        System.out.println((a + Short.MAX_VALUE) % (b + Short.MAX_VALUE));
+        final int normValue = Short.MAX_VALUE + 1;
+        short a = (short) (scanner.nextInt() - normValue), b = (short) (scanner.nextInt() - normValue);
+        System.out.printf("Сумма: %d", a + normValue + b + normValue);
+        System.out.printf("Разность: %d", a - b);
+        System.out.printf("Умножение: %d", (a + normValue) * (b + normValue));
+        System.out.printf("Деление: %d", (a + normValue) / (b + normValue));
+        System.out.printf("Остаток от деления: %d", (a + normValue) % (b + normValue));
     }
 }
