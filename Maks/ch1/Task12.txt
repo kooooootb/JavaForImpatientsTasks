@@ -30,7 +30,7 @@
     public static JCTree innermostType(JCTree type, boolean skipAnnos) {
         JCTree lastAnnotatedType = null;
         JCTree cur = type;
-        while (true) {
+        while (!flag) {
             switch (cur.getTag()) {
                 case TYPEARRAY:
                     lastAnnotatedType = null;
@@ -48,7 +48,6 @@
                     flag = true;
                     break;
             }
-            if(flag) break;
         }
         if (!skipAnnos && lastAnnotatedType!=null) {
             return lastAnnotatedType;

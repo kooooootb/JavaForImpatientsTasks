@@ -1,7 +1,5 @@
 package ch1;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class Task8 {

@@ -34,6 +34,6 @@ public class Task10 {
         Random generator = new Random();
         long number = generator.nextLong();
         String n36 = convertTo36Base(number);
-        System.out.printf("%d -> %s\n", number, n36);
+        System.out.println(number + " -> " + n36);
     }
 }
