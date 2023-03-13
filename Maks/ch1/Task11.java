@@ -9,7 +9,7 @@ public class Task11 {
         int[] codePoints = string.codePoints().toArray();
         for(int codePoint : codePoints){
             if(codePoint > 127){
-                System.out.printf("%c, code:%d\n", codePoint, codePoint);
+                System.out.println((char) codePoint + ", code: " + codePoint);
             }
         }
     }

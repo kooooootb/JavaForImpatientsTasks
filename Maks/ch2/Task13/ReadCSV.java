@@ -13,5 +13,6 @@ public class ReadCSV {
         while((nextLine = reader.readNext()) != null){
             System.out.printf("Name:%s, Address: %s, Email: %s", nextLine[0],  nextLine[1], nextLine[2]);
         }
+        reader.close();
     }
 }
