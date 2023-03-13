@@ -29,9 +29,9 @@ public class Circle {
     }
     private static final double PI = Math.PI;
     private Point center;
-    public double radius;
+    private double radius;
 
-    private Circle() {
+    public Circle() {
         center = new Point();
         radius = 0;
     }
