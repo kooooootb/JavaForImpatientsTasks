@@ -1,9 +1,7 @@
 package ch2.Task2;
 
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ScannerRandom {
     public static void main(String[] args){

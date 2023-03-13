@@ -1,5 +1,7 @@
 package ch2.Task17;
 
+import java.util.Iterator;
+
 public class Queue {
     Node first, last;
 
@@ -16,17 +18,17 @@ public class Queue {
         }
     }
 
-    class Iterator{
+    class Iterator implements java.util.Iterator<String> {
         Node current;
         Iterator(){
             current = Queue.this.first;
         }
-        String next(){
+        public String next(){
             String returning = current.string;
             current = current.next;
             return returning;
         }
-        boolean hasNext(){
+        public boolean hasNext(){
             return current != null;
         }
     }
