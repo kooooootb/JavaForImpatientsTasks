@@ -3,13 +3,13 @@ package Lab2.DopTask;
 import java.util.ArrayList;
 
 public class Circle {
-    private static class Point {
+    public static class Point {
         private double x;
         private double y;
 
-        Point() { x = 0.0; y = 0.0; }
+        public Point() { x = 0.0; y = 0.0; }
 
-        Point(double x, double y) {
+        public Point(double x, double y) {
             this.x = x;
             this.y = y;
         }
@@ -31,17 +31,17 @@ public class Circle {
     private Point center;
     public double radius;
 
-    Circle() {
+    private Circle() {
         center = new Point();
         radius = 0;
     }
 
-    Circle(double x, double y, double r) {
+    public Circle(double x, double y, double r) {
         center = new Point(x, y);
         radius = r;
     }
 
-    Circle(Point c, double r) {
+    public Circle(Point c, double r) {
         center = c;
         radius = r;
     }
