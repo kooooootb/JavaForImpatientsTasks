@@ -1,9 +1,11 @@
 package ch2.extra;
 
-public class Queue implements Iterable<String> {
-    Node first, last;
+import java.util.Observer;
 
-    static class Node{
+public class Queue implements Iterable<String> {
+    private Node first, last;
+    private int size = 0;
+    public static class Node{
         String string;
         Node next;
         Node(String string){
@@ -16,7 +18,7 @@ public class Queue implements Iterable<String> {
         }
     }
 
-    class Iterator implements java.util.Iterator<String> {
+    public class Iterator implements java.util.Iterator<String> {
         private Node current;
         private Node previous = null;
         public Iterator(){
@@ -32,20 +34,24 @@ public class Queue implements Iterable<String> {
             return current != null;
         }
         public void remove(){
-            if(previous == null){ // current is first node in queue
-                if(Queue.this.first != null){
-                    if(Queue.this.first == Queue.this.last){
-                        Queue.this.first = null;
-                        Queue.this.last = null;
-                        current = null;
-                    } else {
-                        Queue.this.first = Queue.this.first.next;
-                        current = Queue.this.first;
+            if(previous == null){ // cant remove after another removal or if no next was called
+                throw new IllegalStateException();
+            } else {
+                Queue outer = Queue.this;
+                if(previous == outer.first){ // if previous is first
+                    outer.remove();
+                } else{ // otherwise
+                    Node prevprev = outer.first;
+                    while(prevprev.next != previous){
+                        prevprev = prevprev.next;
                     }
+                    prevprev.next = previous.next;
+                    if(previous == outer.last){
+                        outer.last = prevprev;
+                    }
+                    outer.size -= 1;
                 }
-            } else if(current != null){ // not after-last not first
-                current = current.next;
-                previous.next = current;
+                previous = null;
             }
         }
     }
@@ -62,6 +68,7 @@ public class Queue implements Iterable<String> {
             last.next = new Node(string);
             last = last.next;
         }
+        size += 1;
     }
     public String remove(){
         final String removing;
@@ -71,6 +78,7 @@ public class Queue implements Iterable<String> {
             if(first == null){
                 last = null;
             }
+            size -= 1;
         } else{
             removing = null;
         }
@@ -78,6 +86,22 @@ public class Queue implements Iterable<String> {
     }
     public Iterator iterator(){
         return new Iterator();
+    }
+    public int getSize(){
+        return size;
+    }
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('[');
+        Iterator iterator = iterator();
+        while(iterator.hasNext()){
+            stringBuilder.append(iterator.next());
+            if(iterator.hasNext()){
+                stringBuilder.append(',');
+            }
+        }
+        stringBuilder.append(']');
+        return stringBuilder.toString();
     }
     public static void main(String[] args) {
         Queue queue = new Queue();
@@ -88,28 +112,31 @@ public class Queue implements Iterable<String> {
         System.out.println("removed: " + queue.remove());
         queue.add("fourth");
 
-        System.out.println("First iteration: ");
-        for(String str : queue) {
-            System.out.print(str + " ");
-        }
-        System.out.println();
+        System.out.println("First iteration: " + queue + ", size: " + queue.getSize());
 
-        System.out.println("Removing");
         Queue.Iterator iterator = queue.iterator();
         while(iterator.hasNext()){
-            iterator.remove();
+            if(iterator.next().equals("fourth")){
+                iterator.remove();
+            }
         }
 
-        System.out.println("Left: " + queue.remove());
+        System.out.println("Removing \"fourth\":" + queue + ", size: " + queue.getSize());
 
         for(int i = 0;i < 15;++i){
             queue.add(i + "");
         }
 
-        System.out.println("second iteration: ");
-        for(String str : queue){
-            System.out.print(str + " ");
+        System.out.println("Second iteration: " + queue + ", size: " + queue.getSize());
+
+        iterator = queue.iterator();
+        while(iterator.hasNext()){
+            String prevString = iterator.next();
+            if(prevString.equals("0") || prevString.equals("14") || prevString.equals("4")){
+                iterator.remove();
+            }
         }
-        System.out.println();
+
+        System.out.println("After deletion [0,4,14]: " + queue + ", size: " + queue.getSize());
     }
 }
