@@ -24,8 +24,25 @@ public class Circle {
         public void setY(double y) {
             this.y = y;
         }
-        public void print() {
-            System.out.println("("+ x +"; " + y + ")");
+        public String toString(){
+            return "(" + x + ", " + y + ")";
+        }
+        public boolean equals(Object object){
+            if(this == object){
+                return true;
+            }
+            if(object == null){
+                return false;
+            }
+            if(object.getClass() != this.getClass()){
+                return false;
+            }
+            Point point = (Point) object;
+            return point.x == this.x && point.y == this.y;
+        }
+
+        public Point move(double dx, double dy){
+            return new Point(x + dx, y + dy);
         }
     }
 //    private static final double PI = Math.PI;
@@ -69,55 +86,76 @@ public class Circle {
         return 2*PI*radius;
     }
 
+    public boolean equals(Object object){
+        if(this == object){
+            return true;
+        }
+        if(object == null){
+            return false;
+        }
+        if(object.getClass() != this.getClass()){
+            return false;
+        }
+        Circle circle = (Circle) object;
+        return circle.center.equals(this.center) && this.radius == circle.radius;
+    }
+
     public double distance(Circle circle) {
         return Math.sqrt(Math.pow((center.x - circle.center.x), 2) + Math.pow((center.y - circle.center.y), 2));
     }
 
     public ArrayList<Point> crossing(Circle circle) {
-        // окружности совпадают
-        if (circle.radius == radius && circle.center.equals(center))
-            return null;
-        // окружности не пересекаются
-        if ((distance(circle) > (radius+circle.radius)) || (distance(circle) < Math.abs(radius-circle.radius)))
-            return new ArrayList<>();
-        // 1 или 2 точки пересечения
+        double d = distance(circle);
         ArrayList<Point> points = new ArrayList<>();
-        double x_offset = circle.center.x - center.x;
-        double y_offset = circle.center.y - center.y;
+        // окружности совпадают
+        if (this.equals(circle))
+            return null;
 
-        double A = -2*x_offset, B= -2*y_offset;
-        double C = Math.pow(x_offset, 2) + Math.pow(y_offset, 2) + Math.pow(radius, 2) - Math.pow(circle.radius, 2);
+        // окружности не пересекаются
+        if ((d > (radius+circle.radius)) || (d < Math.abs(radius-circle.radius)))
+            return points;
 
-        double denominator = Math.pow(A, 2) + Math.pow(B, 2);
-        // 1 точка
-        if (Math.pow(C, 2) == Math.pow(radius, 2)*denominator) {
-            Point point = new Point(-A*C/denominator, -B*C/denominator);
-            points.add(point);
-            return points;
+        // 1 или 2 точки пересечения
+        double d1 = (Math.pow(radius, 2) - Math.pow(circle.radius, 2) + Math.pow(d, 2)) / (2*d);
+        double h = Math.sqrt(Math.pow(radius, 2) - Math.pow(d1, 2));
+        Point middle = new Point(center.x + (d1 * (circle.center.x - center.x)) / d, center.y + (d1 * (circle.center.y - center.y)) / d);
+
+        double xOffset = (h * (circle.center.y - center.y)) / d;
+        double yOffset = (h * (circle.center.x - center.x)) / d;
+        if(xOffset == 0 && yOffset == 0){ // 1 Точка
+            points.add(middle);
+        } else{
+            points.add(middle.move(xOffset, -yOffset));
+            points.add(middle.move(-xOffset, yOffset));
         }
-        // 2 точки
-        if (Math.pow(C, 2) < Math.pow(radius, 2)*denominator) {
-            double d = Math.pow(radius, 2) - Math.pow(C, 2)/denominator;
-            double m = Math.sqrt(d/denominator);
-            Point point1 = new Point(-A*C/denominator + B*m + center.x, -B*C/denominator - A*m + center.y);
-            Point point2 = new Point(-A*C/denominator - B*m + center.x, -B*C/denominator + A*m + center.y);
-            points.add(point1);
-            points.add(point2);
-            return points;
+
+        return points;
+    }
+    public static void test(double x1, double y1, double r1, double x2, double y2, double r2){
+        Circle circle1 = new Circle(new Point(x1, y1), r1);
+        Circle circle2 = new Circle(new Point(x2, y2), r2);
+
+        ArrayList<Point> points = circle1.crossing(circle2);
+        if(points == null){
+            System.out.println("Infinite intersection points");
+        } else {
+            System.out.print("Intersections: ");
+            for (Point el : points) {
+                System.out.print(el + " ");
+            }
+            System.out.println();
         }
-        return new ArrayList<>();
     }
 
     public static void main(String[] args) {
-        Point center1 = new Point(1, 0);
-        Circle circle1 = new Circle(center1, 1);
-        Point center2 = new Point(0, 0);
-        Circle circle2 = new Circle(center2, 2);
-        System.out.println(circle1.area());
-        System.out.println(circle2.length());
-        ArrayList<Point> points = circle1.crossing(circle2);
-        for (Point el: points) {
-            el.print();
-        }
+        Point center = new Point(1, 0);
+        Circle circle = new Circle(center, 1);
+        System.out.println("Area: " + circle.area() + ", length: " + circle.length());
+
+        test(0,0,1,0,0,1); // should be infinite
+        test(0,0,10,1,0,1); // should be 0 points
+        test(2,0,1,0,0,1); // should be 1 point
+        test(2,0,2,0,0,2); // should be 2 points
+
     }
 }
