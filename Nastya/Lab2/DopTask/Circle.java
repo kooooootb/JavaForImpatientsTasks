@@ -1,6 +1,7 @@
 package Lab2.DopTask;
 
 import java.util.ArrayList;
+import static java.lang.Math.PI;
 
 public class Circle {
     public static class Point {
@@ -27,7 +28,7 @@ public class Circle {
             System.out.println("("+ x +"; " + y + ")");
         }
     }
-    private static final double PI = Math.PI;
+//    private static final double PI = Math.PI;
     private Point center;
     private double radius;
 
@@ -74,11 +75,11 @@ public class Circle {
 
     public ArrayList<Point> crossing(Circle circle) {
         // окружности совпадают
-        if (circle.radius == radius && circle.center == center)
+        if (circle.radius == radius && circle.center.equals(center))
             return null;
         // окружности не пересекаются
         if ((distance(circle) > (radius+circle.radius)) || (distance(circle) < Math.abs(radius-circle.radius)))
-            return null;
+            return new ArrayList<>();
         // 1 или 2 точки пересечения
         ArrayList<Point> points = new ArrayList<>();
         double x_offset = circle.center.x - center.x;
@@ -104,13 +105,13 @@ public class Circle {
             points.add(point2);
             return points;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public static void main(String[] args) {
         Point center1 = new Point(1, 0);
         Circle circle1 = new Circle(center1, 1);
-        Point center2 = new Point(0, -2);
+        Point center2 = new Point(0, 0);
         Circle circle2 = new Circle(center2, 2);
         System.out.println(circle1.area());
         System.out.println(circle2.length());
