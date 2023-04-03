@@ -1,6 +1,7 @@
 package ch3.Task12;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class SortingFiles {
@@ -16,11 +17,12 @@ public class SortingFiles {
                 }
             }
 
+//            return first.toString().toLowerCase().compareTo(second.toString().toLowerCase()); // ловеркейсно
             return first.compareTo(second);
         });
     }
     public static void main(String[] args) {
-        File[] files = new File(System.getProperty("user.dir")).listFiles();
+        File[] files = Paths.get("").toAbsolutePath().toFile().listFiles();
         if(files == null){
             return;
         }

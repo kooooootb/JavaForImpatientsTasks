@@ -24,6 +24,9 @@ public class SortingEmployees {
     public static void sort(Employee[] employees){
         Arrays.sort(employees, Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName));
     }
+    public static void sortReversed(Employee[] employees){
+        Arrays.sort(employees, Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName).reversed());
+    }
     public static void main(String[] args) {
         Employee[] employees = {
                 new Employee(100, "aa"),
@@ -33,6 +36,8 @@ public class SortingEmployees {
                 new Employee(100, "cf"),
         };
         sort(employees);
-        System.out.println(Arrays.toString(employees));
+        System.out.println("Normal sort: " + Arrays.toString(employees));
+        sortReversed(employees);
+        System.out.println("Reversed sort: " + Arrays.toString(employees));
     }
 }
