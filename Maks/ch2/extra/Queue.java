@@ -20,11 +20,13 @@ public class Queue implements Iterable<String> {
 
     public class Iterator implements java.util.Iterator<String> {
         private Node current;
+        private Node prevprev = null;
         private Node previous = null;
         public Iterator(){
             current = Queue.this.first;
         }
         public String next(){
+            prevprev = previous;
             previous = current;
             String returning = current.string;
             current = current.next;
@@ -41,10 +43,6 @@ public class Queue implements Iterable<String> {
                 if(previous == outer.first){ // if previous is first
                     outer.remove();
                 } else{ // otherwise
-                    Node prevprev = outer.first;
-                    while(prevprev.next != previous){
-                        prevprev = prevprev.next;
-                    }
                     prevprev.next = previous.next;
                     if(previous == outer.last){
                         outer.last = prevprev;
