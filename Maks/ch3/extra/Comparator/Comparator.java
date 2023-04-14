@@ -1,4 +1,4 @@
-package ch3.extra;
+package ch3.extra.Comparator;
 
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;

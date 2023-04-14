@@ -1,4 +1,4 @@
-package ch3.extra;
+package ch3.extra.Comparator;
 
 public class Main {
     public static void main(String[] args) {
