@@ -6,12 +6,7 @@ import java.util.Arrays;
 
 public class ArrayMethods {
     public static void main(String[] args) {
-        Class<?> cl;
-        try {
-            cl = Class.forName(int[].class.getName());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        Class<?> cl = int[].class;
 
         while (cl != null) {
             for (Method m : cl.getDeclaredMethods()) {

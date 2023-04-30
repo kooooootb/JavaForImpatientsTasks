@@ -1,16 +1,15 @@
 package ch4.task4;
 
 public class Line extends Shape {
-    private Point vector;
+    private Point from, to;
     public Line(Point from, Point to){
         super(from);
-        vector = new Point(to.getX() - from.getY(), to.getY() - from.getY());
+        this.from = from;
+        this.to = to;
     }
     @Override
     public Point getCenter(){
-        Point center = getPoint().clone();
-        center.moveBy(vector.getX() / 2, vector.getY() / 2);
-        return center;
+        return getPoint().clone().moveBy((to.getX() - from.getX()) / 2, (to.getY() - from.getY()) / 2);
     }
     public static void main(String[] args) {
         Line line = new Line(new Point(1, 1), new Point(3, 5));

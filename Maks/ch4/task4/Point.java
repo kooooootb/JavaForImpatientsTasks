@@ -16,9 +16,10 @@ public class Point implements Cloneable {
         return y;
     }
 
-    public void moveBy(double dx, double dy){
+    public Point moveBy(double dx, double dy){
         this.x += dx;
         this.y += dy;
+        return this;
     }
     @Override
     public Point clone(){
